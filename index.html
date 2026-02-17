@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Maker - Professional Resume Builder</title>
+    <link rel="stylesheet" href="src/cv.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="panel">
+            <h1>CV Maker</h1>
+            <p>Professional Resume Builder</p>
+
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+                    <img id="photoPreview" class="photo-preview" alt="photo">
+                    <p>Upload Picture</p>
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <h2>Personal Information</h2>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label>Career Objective</label>
+                <textarea id="careerObjective" placeholder="Enter your career objective"></textarea>
+            </div>
+
+            <h2>Contact Information</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="address" placeholder="Enter your address"></textarea>
+            </div>
+
+            <h2>Work Experience</h2>
+            <div id="experienceList"></div>
+            <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" id="expTitle" placeholder="Enter your job title">
+            </div>
+            <div class="form-group">
+                <label>Organization</label>
+                <input type="text" id="expCompany" placeholder="Enter organization name">
+            </div>
+            <div class="form-group">
+                <label>Duration</label>
+                <input type="text" id="expDuration" placeholder="Enter duration (e.g., Jan 2020 - Dec 2021)">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="expDescription" placeholder="Enter job description"></textarea>
+            </div>
+            <button class="add-btn" onclick="addExperience()">Add Experience</button>
+
+            <h2>Education</h2>
+            <div id="educationList"></div>
+            <div class="form-group">
+                <label>Degree</label>
+                <input type="text" id="eduDegree" placeholder="Enter your degree">
+            </div>
+            <div class="form-group">
+                <label>Institution</label>
+                <input type="text" id="eduInstitution" placeholder="Enter institution name">
+            </div>
+            <div class="form-group">
+                <label>Graduation Year</label>
+                <input type="text" id="eduYear" placeholder="Enter graduation year">
+            </div>
+            <div class="form-group">
+                <label>Result</label>
+                <input type="text" id="eduResult" placeholder="Enter your result (e.g., GPA, Division)">
+            </div>
+            <button class="add-btn" onclick="addEducation()">Add Education</button>
+
+            <h2>Job Type</h2>
+            <div class="form-group">
+                <label>Select CV Type</label>
+                <select id="jobType" onchange="toggleGovtSection()">
+                    <option value="private">Private Job</option>
+                    <option value="govt">Government Job</option>
+                </select>
+            </div>
+
+            <div id="govtSection" style="display: none;">
+                <h2>Additional Information (Government Job)</h2>
+                <div class="form-group">
+                    <label>Father's Name</label>
+                    <input type="text" id="fatherName" placeholder="Enter Father's name">
+                </div>
+                <div class="form-group">
+                    <label>Mother's Name</label>
+                    <input type="text" id="motherName" placeholder="Enter Mother's name">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="dob">
+                </div>
+                <div class="form-group">
+                    <label>National ID (NID)</label>
+                    <input type="text" id="nid" placeholder="Enter NID number">
+                </div>
+                <div class="form-group">
+                    <label>Religion</label>
+                    <select id="religion">
+                        <option value="">Select religion</option>
+                        <option value="Islam">Islam</option>
+                        <option value="Hinduism">Hinduism</option>
+                        <option value="Buddhism">Buddhism</option>
+                        <option value="Christianity">Christianity</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    <select id="maritalStatus">
+                        <option value="">Select marital status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="bloodGroup">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Permanent Address</label>
+                    <textarea id="permanentAddress" placeholder="Enter your permanent address"></textarea>
+                </div>
+            </div>
+
+            <h2>Skills</h2>
+            <h3 style="font-size: 16px; color: #555; margin-top: 20px; margin-bottom: 10px;">List your key skills here
+            </h3>
+            <div id="skillsList"></div>
+            <div class="form-group">
+                <label>Skill Name</label>
+                <input type="text" id="skillName" placeholder="Enter skill name">
+            </div>
+            <button class="btn btn-primary" onclick="addSkill()">Add Skill</button>
+
+            <h3 style="font-size: 16px; color: #555; margin-top: 20px; margin-bottom: 10px;">Languages Known</h3>
+            <div id="languagesList"></div>
+            <div class="form-group">
+                <label>Language Name</label>
+                <input type="text" id="languageName" placeholder="Enter language name">
+            </div>
+            <div class="form-group">
+                <label>Proficiency Level</label>
+                <select id="languageProficiency">
+                    <option value="">Select proficiency level</option>
+                    <option value="Native">Native</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Good">Good</option>
+                    <option value="Basic">Basic</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="addLanguage()">Add Language</button>
+
+            <h2>Hobbies</h2>
+            <h3 style="font-size: 16px; color: #555; margin-top: 20px; margin-bottom: 10px;">List your hobbies here</h3>
+            <div id="hobbiesList"></div>
+            <div class="form-group">
+                <label>Hobby Name</label>
+                <input type="text" id="hobbyName" placeholder="Enter hobby name">
+            </div>
+            <button class="btn btn-primary" onclick="addHobby()">Add Hobby</button>
+
+            <h2>References</h2>
+            <div id="referencesList"></div>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="refName" placeholder="Enter reference name">
+            </div>
+            <div class="form-group">
+                <label>Designation</label>
+                <input type="text" id="refDesignation" placeholder="Professor, Department of CSE">
+            </div>
+            <div class="form-group">
+                <label>Organization</label>
+                <input type="text" id="refOrganization" placeholder="University of Dhaka">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="refEmail" placeholder="reference@email.com">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="refPhone" placeholder="01XXXXXXXXX">
+            </div>
+            <button class="btn btn-primary" onclick="addReference()">Add Reference</button>
+
+            <div class="button-group">
+                <button class="btn btn-success" onclick="downloadPDF()">📥 Download PDF</button>
+            </div>
+        </div>
+
+        <div class="panel" id="cv-preview">
+            <div class="cv-container" id="cv-content">
+                <div class="cv-header">
+                    <img id="cvPhoto" class="cv-photo" style="display: none;" alt="Profile">
+                    <h1 class="cv-name" id="cvName">Your Name</h1>
+                    <p class="cv-objective" id="cvObjective"></p>
+                </div>
+
+                <div class="cv-section">
+                    <h2 class="cv-section-title">Contact</h2>
+                    <div class="cv-contact">
+                        <div class="cv-contact-item"><strong>Email:</strong> <span id="cvEmail"></span></div>
+                        <div class="cv-contact-item"><strong>Phone:</strong> <span id="cvPhone"></span></div>
+                        <div class="cv-contact-item"><strong>Address:</strong> <span id="cvAddress"></span></div>
+                    </div>
+                </div>
+
+                <div class="cv-section" id="cvGovtSection" style="display: none;">
+                    <h2 class="cv-section-title">Personal Information</h2>
+                    <div class="cv-contact">
+                        <div class="cv-contact-item"><strong>Father's Name:</strong> <span id="cvFatherName"></span>
+                        </div>
+                        <div class="cv-contact-item"><strong>Mother's Name:</strong> <span id="cvMotherName"></span>
+                        </div>
+                        <div class="cv-contact-item"><strong>Date of Birth:</strong> <span id="cvDob"></span></div>
+                        <div class="cv-contact-item"><strong>NID:</strong> <span id="cvNid"></span></div>
+                        <div class="cv-contact-item"><strong>Religion:</strong> <span id="cvReligion"></span></div>
+                        <div class="cv-contact-item"><strong>Marital Status:</strong> <span id="cvMaritalStatus"></span>
+                        </div>
+                        <div class="cv-contact-item"><strong>Gender:</strong> <span id="cvGender"></span></div>
+                        <div class="cv-contact-item"><strong>Blood Group:</strong> <span id="cvBloodGroup"></span></div>
+                        <div class="cv-contact-item"><strong>Permanent Address:</strong> <span
+                                id="cvPermanentAddress"></span></div>
+                    </div>
+                </div>
+
+                <div class="cv-section" id="cvExperienceSection" style="display: none;">
+                    <h2 class="cv-section-title">Work Experience</h2>
+                    <div id="cvExperienceList"></div>
+                </div>
+
+                <div class="cv-section" id="cvEducationSection" style="display: none;">
+                    <h2 class="cv-section-title">Education</h2>
+                    <div id="cvEducationList"></div>
+                </div>
+
+                <div class="cv-section" id="cvSkillsSection" style="display: none;">
+                    <h2 class="cv-section-title">Skills</h2>
+                    <div id="cvSkillsList"></div>
+
+                    <div id="cvLanguagesContainer" style="display: none; margin-top: 15px;">
+                        <h3 style="font-size: 16px; color: #555; margin-bottom: 12px; font-weight: 600;">Language Skill
+                        </h3>
+                        <div id="cvLanguages"></div>
+                    </div>
+                </div>
+
+                <div class="cv-section" id="cvHobbiesSection" style="display: none;">
+                    <h2 class="cv-section-title">Hobbies</h2>
+                    <div id="cvHobbiesList"></div>
+                </div>
+
+                <div class="cv-section" id="cvReferencesSection" style="display: none;">
+                    <h2 class="cv-section-title">References</h2>
+                    <div id="cvReferencesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/cv.js"></script>
+</body>
+
+</html>
